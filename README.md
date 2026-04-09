@@ -1,5 +1,33 @@
 # SpeechCraft - Plateforme de Synthèse Vocale Multi-Fournisseurs
 
+## Membres du groupe
+Killian Gascon
+Alexandre Levenez
+
+## A développer sur le projet
+- Ajout de l'OAuth
+- Utilisation No SQL
+      - Gestion des tokens JWT
+      - Rate limiting
+      - Cache
+A évoluer
+
+## Eléments
+- Ajout de l'OAuth
+- Gestion du No SQL pour Cache
+- Gestion No SQL Tokens
+- Gestion No SQL rate Limit
+
+## Variables d'environnement
+### .env
+DATABASE_URL
+DATABASE_URL_UNPOOLED
+NEXTAUTH_SECRET
+
+### .env.local
+GOOGLE_TTS_API_KEY
+
+
 ## Technologies principales
 
 ### Frontend
