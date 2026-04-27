@@ -21,9 +21,21 @@ model User {
   password    String
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
-  conversions Conversion[]
+  conversions  Conversion[]
+  clonedVoices ClonedVoice[]
 
   @@map("users")
+}
+
+model ClonedVoice {
+  id                Int      @id @default(autoincrement()) @map("Id")
+  userId            Int      @map("User_Id")
+  elevenLabsVoiceId String   @map("Eleven_Labs_Voice_Id")
+  name              String   @map("Name")
+  createdAt         DateTime @default(now()) @map("Created_At")
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("cloned_voices")
 }
 
 model Conversion {
