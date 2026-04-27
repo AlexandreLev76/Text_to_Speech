@@ -2,6 +2,7 @@ import { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { prisma } from '@/lib/prisma'
 import bcrypt from 'bcryptjs'
+import { randomUUID } from 'crypto'
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -55,12 +56,12 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     async jwt({ token, user }) {
-      // Mettre à jour le token seulement quand nécessaire
       if (user) {
         token.id = user.id
         token.firstName = user.firstName
         token.lastName = user.lastName
         token.email = user.email
+        token.jti = randomUUID() // identifiant unique pour la blacklist
       }
       return token
     },
