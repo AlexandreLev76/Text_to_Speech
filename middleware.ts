@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
+import { redis, KEYS } from '@/lib/redis';
 import type { NextRequest } from 'next/server';
 
 export async function middleware(req: NextRequest) {
@@ -7,6 +8,17 @@ export async function middleware(req: NextRequest) {
         req,
         secret: process.env.NEXTAUTH_SECRET
     });
+
+    // Vérifier si le token est blacklisté (logout explicite)
+    if (token?.jti) {
+        const isBlacklisted = await redis.exists(KEYS.jwtBlacklist(token.jti as string));
+        if (isBlacklisted) {
+            const loginUrl = new URL('/login', req.url);
+            const response = NextResponse.redirect(loginUrl);
+            response.cookies.delete('next-auth.session-token');
+            return response;
+        }
+    }
 
     // Rediriger les utilisateurs connectés depuis login/signup vers account
     if ((req.nextUrl.pathname === '/login' || req.nextUrl.pathname === '/sign-up') && token) {
