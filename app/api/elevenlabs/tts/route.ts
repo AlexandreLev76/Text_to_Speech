@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/lib/auth';
-import { prisma } from '@/lib/prisma';
 
 const ELEVENLABS_API_URL = 'https://api.elevenlabs.io/v1';
 
@@ -21,30 +20,18 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Texte et voiceId requis' }, { status: 400 });
   }
 
-  // Vérifier que la voix appartient à l'utilisateur
-  const voice = await prisma.clonedVoice.findFirst({
-    where: { id: voiceId, userId: parseInt(session.user.id) },
+  const response = await fetch(`${ELEVENLABS_API_URL}/text-to-speech/${voiceId}`, {
+    method: 'POST',
+    headers: {
+      'xi-api-key': process.env.ELEVENLABS_API_KEY,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      text,
+      model_id: 'eleven_multilingual_v2',
+      voice_settings: { stability: 0.5, similarity_boost: 0.75 },
+    }),
   });
-
-  if (!voice) {
-    return NextResponse.json({ error: 'Voix introuvable' }, { status: 404 });
-  }
-
-  const response = await fetch(
-    `${ELEVENLABS_API_URL}/text-to-speech/${voice.elevenLabsVoiceId}`,
-    {
-      method: 'POST',
-      headers: {
-        'xi-api-key': process.env.ELEVENLABS_API_KEY,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        text,
-        model_id: 'eleven_multilingual_v2',
-        voice_settings: { stability: 0.5, similarity_boost: 0.75 },
-      }),
-    }
-  );
 
   if (!response.ok) {
     const error = await response.json();
