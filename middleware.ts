@@ -11,12 +11,16 @@ export async function middleware(req: NextRequest) {
 
     // Vérifier si le token est blacklisté (logout explicite)
     if (token?.jti) {
-        const isBlacklisted = await redis.exists(KEYS.jwtBlacklist(token.jti as string));
-        if (isBlacklisted) {
-            const loginUrl = new URL('/login', req.url);
-            const response = NextResponse.redirect(loginUrl);
-            response.cookies.delete('next-auth.session-token');
-            return response;
+        try {
+            const isBlacklisted = await redis.exists(KEYS.jwtBlacklist(token.jti as string));
+            if (isBlacklisted) {
+                const loginUrl = new URL('/login', req.url);
+                const response = NextResponse.redirect(loginUrl);
+                response.cookies.delete('next-auth.session-token');
+                return response;
+            }
+        } catch {
+            // Redis inaccessible : on laisse passer (fail open)
         }
     }
 
