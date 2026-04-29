@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, useCallback } from "react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Slider } from "@/components/ui/slider"
@@ -19,7 +19,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Play, Pause, Download, Volume2, Loader2, RefreshCw, Sparkles } from 'lucide-react'
+import { Play, Pause, Download, Volume2, Loader2, RefreshCw, Sparkles, Heart } from 'lucide-react'
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { convertTextToSpeech } from "@/lib/text-to-speech"
@@ -67,6 +67,14 @@ type ElevenLabsVoice = {
   useCase: string
 }
 
+type FavoriteVoice = {
+  id: number
+  voiceType: string
+  voiceId: string
+  voiceName: string
+  metadata: Record<string, string> | null
+}
+
 export default function TextToSpeechPage() {
   const { user, loading } = useAuth()
   const router = useRouter()
@@ -95,11 +103,56 @@ export default function TextToSpeechPage() {
   const [genderFilter, setGenderFilter] = useState<string>("all")
   const [isLoadingVoices, setIsLoadingVoices] = useState(false)
   const [isPremiumConverting, setIsPremiumConverting] = useState(false)
+  const [showOnlyFavoritesPremium, setShowOnlyFavoritesPremium] = useState(false)
+
+  // --- Favorites state ---
+  const [favorites, setFavorites] = useState<FavoriteVoice[]>([])
+  const [showOnlyFavoritesStandard, setShowOnlyFavoritesStandard] = useState(false)
 
   // --- Shared audio state ---
   const [isPlaying, setIsPlaying] = useState(false)
   const [audioUrl, setAudioUrl] = useState("")
   const audioRef = useRef<HTMLAudioElement>(null)
+
+  const fetchFavorites = useCallback(async () => {
+    const res = await fetch('/api/favorites')
+    if (res.ok) setFavorites(await res.json())
+  }, [])
+
+  useEffect(() => {
+    if (user) fetchFavorites()
+  }, [user, fetchFavorites])
+
+  const isFavorite = (voiceType: string, voiceId: string) =>
+    favorites.some(f => f.voiceType === voiceType && f.voiceId === voiceId)
+
+  const toggleFavorite = async (
+    voiceType: string,
+    voiceId: string,
+    voiceName: string,
+    metadata?: Record<string, string>
+  ) => {
+    if (isFavorite(voiceType, voiceId)) {
+      await fetch('/api/favorites', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ voiceType, voiceId }),
+      })
+      setFavorites(prev => prev.filter(f => !(f.voiceType === voiceType && f.voiceId === voiceId)))
+      toast.success("Retiré des favoris")
+    } else {
+      const res = await fetch('/api/favorites', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ voiceType, voiceId, voiceName, metadata }),
+      })
+      if (res.ok) {
+        const fav = await res.json()
+        setFavorites(prev => [fav, ...prev])
+        toast.success("Ajouté aux favoris")
+      }
+    }
+  }
 
   const fetchVoices = async () => {
     setIsLoadingVoices(true)
@@ -220,6 +273,12 @@ export default function TextToSpeechPage() {
     return "Normal"
   }
 
+  const standardVoiceId = `${voiceSettings.language}-${voiceSettings.gender}`
+  const standardLangName = LANGUAGES.find(l => l.code === voiceSettings.language)?.name ?? voiceSettings.language
+
+  const filteredPremiumVoices = voices
+    .filter(v => genderFilter === "all" || v.gender.toLowerCase() === genderFilter)
+    .filter(v => !showOnlyFavoritesPremium || isFavorite("premium", v.voiceId))
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center">
@@ -270,14 +329,67 @@ export default function TextToSpeechPage() {
                       </div>
                       <div className="space-y-2">
                         <Label>Voix</Label>
-                        <Select value={voiceSettings.gender} onValueChange={(v) => setVoiceSettings(p => ({ ...p, gender: v as "FEMALE" | "MALE" }))}>
-                          <SelectTrigger><SelectValue /></SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="FEMALE">Femme</SelectItem>
-                            <SelectItem value="MALE">Homme</SelectItem>
-                          </SelectContent>
-                        </Select>
+                        <div className="flex items-center gap-2">
+                          <Select value={voiceSettings.gender} onValueChange={(v) => setVoiceSettings(p => ({ ...p, gender: v as "FEMALE" | "MALE" }))}>
+                            <SelectTrigger><SelectValue /></SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="FEMALE">Femme</SelectItem>
+                              <SelectItem value="MALE">Homme</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => toggleFavorite(
+                              "standard",
+                              standardVoiceId,
+                              `${standardLangName} · ${voiceSettings.gender === "FEMALE" ? "Femme" : "Homme"}`,
+                              { language: voiceSettings.language, gender: voiceSettings.gender }
+                            )}
+                            title={isFavorite("standard", standardVoiceId) ? "Retirer des favoris" : "Ajouter aux favoris"}
+                          >
+                            <Heart
+                              className="h-4 w-4"
+                              fill={isFavorite("standard", standardVoiceId) ? "currentColor" : "none"}
+                              color={isFavorite("standard", standardVoiceId) ? "#ef4444" : "currentColor"}
+                            />
+                          </Button>
+                        </div>
                       </div>
+
+                      {/* Filtre favoris standard */}
+                      {favorites.some(f => f.voiceType === "standard") && (
+                        <Button
+                          variant={showOnlyFavoritesStandard ? "default" : "outline"}
+                          size="sm"
+                          onClick={() => setShowOnlyFavoritesStandard(p => !p)}
+                          className="w-full"
+                        >
+                          <Heart className="mr-2 h-3 w-3" fill={showOnlyFavoritesStandard ? "currentColor" : "none"} />
+                          {showOnlyFavoritesStandard ? "Tous les paramètres" : "Mes favoris"}
+                        </Button>
+                      )}
+
+                      {showOnlyFavoritesStandard && (
+                        <div className="space-y-1">
+                          <Label className="text-xs text-muted-foreground">Favoris enregistrés</Label>
+                          <div className="flex flex-col gap-1">
+                            {favorites.filter(f => f.voiceType === "standard").map(fav => (
+                              <button
+                                key={fav.id}
+                                onClick={() => {
+                                  const meta = fav.metadata as { language: string; gender: string } | null
+                                  if (meta) setVoiceSettings(p => ({ ...p, language: meta.language, gender: meta.gender as "FEMALE" | "MALE" }))
+                                }}
+                                className="flex items-center justify-between rounded-md border px-3 py-2 text-sm hover:bg-muted text-left"
+                              >
+                                <span>{fav.voiceName}</span>
+                                <Heart className="h-3 w-3 text-red-500" fill="currentColor" />
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
 
                     <div className="space-y-4">
@@ -316,8 +428,18 @@ export default function TextToSpeechPage() {
 
                 {/* ---- ONGLET VOIX PREMIUM ---- */}
                 <TabsContent value="premium" className="space-y-6">
-                  <div className="flex justify-end">
-                    <Button variant="outline" size="sm" onClick={fetchVoices} disabled={isLoadingVoices}>
+                  <div className="flex justify-between items-center">
+                    {voices.length > 0 && favorites.some(f => f.voiceType === "premium") && (
+                      <Button
+                        variant={showOnlyFavoritesPremium ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => setShowOnlyFavoritesPremium(p => !p)}
+                      >
+                        <Heart className="mr-2 h-3 w-3" fill={showOnlyFavoritesPremium ? "currentColor" : "none"} />
+                        {showOnlyFavoritesPremium ? "Toutes les voix" : "Mes favoris"}
+                      </Button>
+                    )}
+                    <Button variant="outline" size="sm" onClick={fetchVoices} disabled={isLoadingVoices} className="ml-auto">
                       {isLoadingVoices ? <Loader2 className="h-4 w-4 animate-spin" /> : "Charger les voix"}
                     </Button>
                   </div>
@@ -338,18 +460,41 @@ export default function TextToSpeechPage() {
                         </div>
                         <div className="flex-1 space-y-1">
                           <Label>Voix</Label>
-                          <Select value={selectedVoiceId} onValueChange={setSelectedVoiceId}>
-                            <SelectTrigger><SelectValue placeholder="Sélectionnez une voix" /></SelectTrigger>
-                            <SelectContent>
-                              {voices
-                                .filter(v => genderFilter === "all" || v.gender.toLowerCase() === genderFilter)
-                                .map(v => (
+                          <div className="flex items-center gap-2">
+                            <Select value={selectedVoiceId} onValueChange={setSelectedVoiceId}>
+                              <SelectTrigger><SelectValue placeholder="Sélectionnez une voix" /></SelectTrigger>
+                              <SelectContent>
+                                {filteredPremiumVoices.map(v => (
                                   <SelectItem key={v.voiceId} value={v.voiceId}>
                                     {v.name}{v.accent ? ` · ${v.accent}` : ""}
                                   </SelectItem>
                                 ))}
-                            </SelectContent>
-                          </Select>
+                              </SelectContent>
+                            </Select>
+                            {selectedVoiceId && (() => {
+                              const v = voices.find(v => v.voiceId === selectedVoiceId)
+                              if (!v) return null
+                              return (
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  onClick={() => toggleFavorite(
+                                    "premium",
+                                    v.voiceId,
+                                    v.name,
+                                    { gender: v.gender, accent: v.accent, description: v.description, useCase: v.useCase }
+                                  )}
+                                  title={isFavorite("premium", v.voiceId) ? "Retirer des favoris" : "Ajouter aux favoris"}
+                                >
+                                  <Heart
+                                    className="h-4 w-4"
+                                    fill={isFavorite("premium", v.voiceId) ? "currentColor" : "none"}
+                                    color={isFavorite("premium", v.voiceId) ? "#ef4444" : "currentColor"}
+                                  />
+                                </Button>
+                              )
+                            })()}
+                          </div>
                         </div>
                       </div>
 
@@ -393,7 +538,7 @@ export default function TextToSpeechPage() {
               </Tabs>
 
               {/* ---- PLAYER AUDIO PARTAGÉ ---- */}
-              <audio ref={audioRef} src={audioUrl} onEnded={() => setIsPlaying(false)} className="hidden" />
+              <audio ref={audioRef} src={audioUrl || undefined} onEnded={() => setIsPlaying(false)} className="hidden" />
 
               <Separator className="my-6" />
 
