@@ -7,11 +7,13 @@ import { Nav } from "@/components/nav"
 import { Footer } from "@/components/footer"
 import { useAuth } from "@/hooks/useAuth"
 import Link from "next/link"
+import { useLocale } from "@/components/locale-provider"
 import locales from "./locales.json"
 
-const t = locales['fr']
-
 export default function LandingPage() {
+  const { locale } = useLocale()
+  const t = locales[locale as keyof typeof locales]
+
   const { user } = useAuth()
 
   return (

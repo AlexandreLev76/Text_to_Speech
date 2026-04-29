@@ -13,9 +13,8 @@ import { toast } from "sonner"
 import { useAuth } from "@/hooks/useAuth"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
+import { useLocale } from "@/components/locale-provider"
 import locales from "./locales.json"
-
-const t = locales['fr']
 
 interface HistoryItem {
   id: number
@@ -28,6 +27,9 @@ interface HistoryItem {
 }
 
 export default function HistoryPage() {
+  const { locale } = useLocale()
+  const t = locales[locale as keyof typeof locales]
+
   const [history, setHistory] = useState<HistoryItem[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const { user, loading } = useAuth()

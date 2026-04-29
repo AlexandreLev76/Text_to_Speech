@@ -6,7 +6,12 @@
       "Bash(cp \"c:/Users/gasco/Documents/dev/Text_to_Speech/app/[locale]/login/locales.json\" \"c:/Users/gasco/Documents/dev/Text_to_Speech/app/login/locales.json\")",
       "Bash(cp \"c:/Users/gasco/Documents/dev/Text_to_Speech/app/[locale]/sign-up/locales.json\" \"c:/Users/gasco/Documents/dev/Text_to_Speech/app/sign-up/locales.json\")",
       "Bash(cp \"c:/Users/gasco/Documents/dev/Text_to_Speech/app/[locale]/account/locales.json\" \"c:/Users/gasco/Documents/dev/Text_to_Speech/app/account/locales.json\")",
-      "Bash(cp \"c:/Users/gasco/Documents/dev/Text_to_Speech/app/[locale]/history/locales.json\" \"c:/Users/gasco/Documents/dev/Text_to_Speech/app/history/locales.json\")"
+      "Bash(cp \"c:/Users/gasco/Documents/dev/Text_to_Speech/app/[locale]/history/locales.json\" \"c:/Users/gasco/Documents/dev/Text_to_Speech/app/history/locales.json\")",
+      "Bash(git -C /c/Users/gasco/Documents/dev/Text_to_Speech log --oneline --all --name-status)",
+      "Bash(git -C /c/Users/gasco/Documents/dev/Text_to_Speech log --oneline --follow --all -- components/locale-switcher.tsx components/locale-switcher/index.tsx)",
+      "Bash(git -C /c/Users/gasco/Documents/dev/Text_to_Speech log --oneline --all -- components/locale-switcher.tsx)",
+      "Bash(git -C /c/Users/gasco/Documents/dev/Text_to_Speech log --oneline --all -- components/locale-switcher/index.tsx)",
+      "Bash(git show *)"
     ]
   }
 }

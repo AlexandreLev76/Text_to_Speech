@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -5,11 +7,13 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Volume2, Code, FileText, Mail, Github, Twitter, ExternalLink, BookOpen, MessageSquare, HelpCircle } from 'lucide-react'
 import { Nav } from "@/components/nav"
 import { Footer } from "@/components/footer"
+import { useLocale } from "@/components/locale-provider"
 import locales from "./locales.json"
 
-const t = locales['fr']
-
 export default function AboutPage() {
+  const { locale } = useLocale()
+  const t = locales[locale as keyof typeof locales]
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center">
       <Nav />

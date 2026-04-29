@@ -11,11 +11,13 @@ import { GoogleSignInButton } from "@/components/google-sign-in-button"
 import { useAuth } from "@/hooks/useAuth"
 import Link from "next/link"
 import { toast } from "sonner"
+import { useLocale } from "@/components/locale-provider"
 import locales from "./locales.json"
 
-const t = locales['fr']
-
 export default function LoginPage() {
+  const { locale } = useLocale()
+  const t = locales[locale as keyof typeof locales]
+
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [rememberMe, setRememberMe] = useState(false)
