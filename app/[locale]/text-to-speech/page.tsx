@@ -88,7 +88,7 @@ export default function TextToSpeechPage() {
       toast.success(t.favoriteRemoved)
     } else {
       const res = await fetch('/api/favorites', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ voiceType, voiceId, voiceName, metadata }) })
-      if (res.ok) { setFavorites(prev => [await res.json(), ...prev]); toast.success(t.favoriteAdded) }
+      if (res.ok) { const fav = await res.json(); setFavorites(prev => [fav, ...prev]); toast.success(t.favoriteAdded) }
     }
   }
 
@@ -107,10 +107,17 @@ export default function TextToSpeechPage() {
       const result = await convertTextToSpeech(text, voiceSettings)
       if (result.error) { toast.error(result.error); return }
       setAudioUrl(result.audioUrl)
-      await fetch('/api/history', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text, voice: voiceSettings.gender.toLowerCase(), speed: voiceSettings.speakingRate, pitch: voiceSettings.pitch, audioUrl: result.audioUrl }) })
+      await fetch('/api/history', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text, voice: voiceSettings.gender.toLowerCase(), speed: voiceSettings.speakingRate, pitch: voiceSettings.pitch, audioUrl: result.audioUrl }),
+      })
       toast.success(t.convertSuccess)
-    } catch { toast.error(t.convertError) }
-    finally { setIsConverting(false) }
+    } catch {
+      toast.error(t.convertError)
+    } finally {
+      setIsConverting(false)
+    }
   }
 
   const handlePremiumConvert = async () => {
@@ -118,16 +125,33 @@ export default function TextToSpeechPage() {
     if (!selectedVoiceId) { toast.error(t.selectVoiceError); return }
     setIsPremiumConverting(true)
     try {
-      const res = await fetch('/api/elevenlabs/tts', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text: premiumText, voiceId: selectedVoiceId }) })
-      if (!res.ok) { const err = await res.json(); toast.error(err.error || t.convertError); return }
+      const res = await fetch('/api/elevenlabs/tts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: premiumText, voiceId: selectedVoiceId }),
+      })
+      if (!res.ok) {
+        const err = await res.json()
+        toast.error(err.error || t.convertError)
+        return
+      }
       const { audioContent } = await res.json()
-      const blobUrl = URL.createObjectURL(new Blob([Uint8Array.from(atob(audioContent), c => c.charCodeAt(0))], { type: 'audio/mp3' }))
+      const blobUrl = URL.createObjectURL(
+        new Blob([Uint8Array.from(atob(audioContent), c => c.charCodeAt(0))], { type: 'audio/mp3' })
+      )
       setAudioUrl(blobUrl)
       const selectedVoice = voices.find(v => v.voiceId === selectedVoiceId)
-      await fetch('/api/history', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text: premiumText, voice: selectedVoice?.name ?? 'elevenlabs', speed: 1, pitch: 1, audioUrl: blobUrl }) })
+      await fetch('/api/history', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: premiumText, voice: selectedVoice?.name ?? 'elevenlabs', speed: 1, pitch: 1, audioUrl: blobUrl }),
+      })
       toast.success(t.convertSuccess)
-    } catch { toast.error(t.convertError) }
-    finally { setIsPremiumConverting(false) }
+    } catch {
+      toast.error(t.convertError)
+    } finally {
+      setIsPremiumConverting(false)
+    }
   }
 
   const handlePlayPause = () => {
