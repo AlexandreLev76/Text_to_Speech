@@ -7,9 +7,8 @@ import { User, LogOut } from 'lucide-react'
 import { Nav } from "@/components/nav"
 import { Footer } from "@/components/footer"
 import { useAuth } from "@/hooks/useAuth"
+import { useLocale } from "@/components/locale-provider"
 import locales from "./locales.json"
-
-const t = locales['fr']
 
 interface UserData {
   id: string | number
@@ -19,6 +18,9 @@ interface UserData {
 }
 
 export default function AccountPage() {
+  const { locale } = useLocale()
+  const t = locales[locale as keyof typeof locales]
+
   const [activeTab, setActiveTab] = useState("profile")
   const [userData, setUserData] = useState<UserData | null>(null)
   const [isLoading, setIsLoading] = useState(true)

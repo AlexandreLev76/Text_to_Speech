@@ -17,9 +17,8 @@ import { Nav } from "@/components/nav"
 import { Footer } from "@/components/footer"
 import { useAuth } from "@/hooks/useAuth"
 import { useRouter } from "next/navigation"
+import { useLocale } from "@/components/locale-provider"
 import locales from "./locales.json"
-
-const t = locales['fr']
 
 type ElevenLabsVoice = {
   voiceId: string
@@ -42,6 +41,9 @@ const LANGUAGE_CODES = ['fr-FR','en-US','en-GB','es-ES','de-DE','it-IT','pt-PT',
 const TONE_VALUES = [-20, -10, -5, 0, 5, 10, 15, 20] as const
 
 export default function TextToSpeechPage() {
+  const { locale } = useLocale()
+  const t = locales[locale as keyof typeof locales]
+
   const { user, loading } = useAuth()
   const router = useRouter()
 
