@@ -1,11 +1,16 @@
 import { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
+import GoogleProvider from 'next-auth/providers/google'
 import { prisma } from '@/lib/prisma'
 import bcrypt from 'bcryptjs'
 import { randomUUID } from 'crypto'
 
 export const authOptions: NextAuthOptions = {
   providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
     CredentialsProvider({
       name: 'Credentials',
       credentials: {
@@ -22,7 +27,7 @@ export const authOptions: NextAuthOptions = {
             where: { email: credentials.email }
           })
 
-          if (!user || !(await bcrypt.compare(credentials.password, user.password))) {
+          if (!user || !user.password || !(await bcrypt.compare(credentials.password, user.password))) {
             console.log("Échec d'authentification pour:", credentials.email)
             return null
           }
@@ -55,13 +60,49 @@ export const authOptions: NextAuthOptions = {
     signOut: '/',
   },
   callbacks: {
+    async signIn({ user, account, profile }) {
+      if (account?.provider === 'google' && profile?.email) {
+        try {
+          let dbUser = await prisma.user.findUnique({ where: { email: profile.email } })
+
+          if (!dbUser) {
+            const googleProfile = profile as { given_name?: string; family_name?: string; picture?: string }
+            dbUser = await prisma.user.create({
+              data: {
+                email: profile.email,
+                firstName: googleProfile.given_name ?? profile.email.split('@')[0],
+                lastName: googleProfile.family_name ?? '',
+                image: googleProfile.picture ?? null,
+              }
+            })
+          }
+
+          const existingAccount = await prisma.account.findUnique({
+            where: { provider_providerAccountId: { provider: 'google', providerAccountId: account.providerAccountId } }
+          })
+          if (!existingAccount) {
+            await prisma.account.create({
+              data: { userId: dbUser.id, provider: 'google', providerAccountId: account.providerAccountId }
+            })
+          }
+
+          user.id = dbUser.id.toString()
+          user.firstName = dbUser.firstName
+          user.lastName = dbUser.lastName
+        } catch (error) {
+          console.error("Erreur signIn Google:", error)
+          return false
+        }
+      }
+      return true
+    },
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id
         token.firstName = user.firstName
         token.lastName = user.lastName
         token.email = user.email
-        token.jti = randomUUID() // identifiant unique pour la blacklist
+        token.jti = randomUUID()
       }
       return token
     },
