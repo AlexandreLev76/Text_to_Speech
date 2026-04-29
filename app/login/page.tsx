@@ -4,9 +4,10 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Checkbox } from "@/components/ui/checkbox"
-import { ArrowRight, Mail, Lock, Facebook, Twitter, Github } from 'lucide-react'
+import { ArrowRight, Mail, Lock } from 'lucide-react'
 import { Nav } from "@/components/nav"
 import { Footer } from "@/components/footer"
+import { GoogleSignInButton } from "@/components/google-sign-in-button"
 import { useAuth } from "@/hooks/useAuth"
 import Link from "next/link"
 import { toast } from "sonner"
@@ -103,11 +104,7 @@ export default function LoginPage() {
                   {t.orContinueWith}
                 </span>
               </div>
-              <div className="grid grid-cols-3 gap-2">
-                <Button variant="outline" size="icon" className="w-full"><Facebook className="h-4 w-4" /></Button>
-                <Button variant="outline" size="icon" className="w-full"><Twitter className="h-4 w-4" /></Button>
-                <Button variant="outline" size="icon" className="w-full"><Github className="h-4 w-4" /></Button>
-              </div>
+              <GoogleSignInButton />
               <div className="text-center text-sm">
                 {t.noAccount}{" "}
                 <Link href="/sign-up" className="text-primary hover:underline">
