@@ -1,0 +1,46 @@
+{
+  "fr": {
+    "profileTitle": "Informations du profil",
+    "profileSubtitle": "Mettez à jour vos informations personnelles et vos préférences.",
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "email": "Email",
+    "bio": "Biographie",
+    "bioDefault": "Passionné(e) par la technologie vocale et l'IA.",
+    "navProfile": "Profil",
+    "navLogout": "Déconnexion"
+  },
+  "en": {
+    "profileTitle": "Profile information",
+    "profileSubtitle": "Update your personal information and preferences.",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email",
+    "bio": "Biography",
+    "bioDefault": "Passionate about voice technology and AI.",
+    "navProfile": "Profile",
+    "navLogout": "Logout"
+  },
+  "nl": {
+    "profileTitle": "Profielinformatie",
+    "profileSubtitle": "Werk uw persoonlijke informatie en voorkeuren bij.",
+    "firstName": "Voornaam",
+    "lastName": "Achternaam",
+    "email": "E-mail",
+    "bio": "Biografie",
+    "bioDefault": "Gepassioneerd door spraaktechnologie en AI.",
+    "navProfile": "Profiel",
+    "navLogout": "Uitloggen"
+  },
+  "ja": {
+    "profileTitle": "プロフィール情報",
+    "profileSubtitle": "個人情報と設定を更新してください。",
+    "firstName": "名",
+    "lastName": "姓",
+    "email": "メールアドレス",
+    "bio": "自己紹介",
+    "bioDefault": "音声技術とAIに情熱を持っています。",
+    "navProfile": "プロフィール",
+    "navLogout": "ログアウト"
+  }
+}

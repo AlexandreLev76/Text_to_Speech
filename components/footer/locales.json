@@ -1,0 +1,26 @@
+{
+  "fr": {
+    "rights": "Tous droits réservés.",
+    "app": "Utiliser l'application",
+    "history": "Voir l'historique",
+    "about": "Qui sommes-nous"
+  },
+  "en": {
+    "rights": "All rights reserved.",
+    "app": "Use the app",
+    "history": "View history",
+    "about": "About us"
+  },
+  "nl": {
+    "rights": "Alle rechten voorbehouden.",
+    "app": "Gebruik de app",
+    "history": "Geschiedenis bekijken",
+    "about": "Over ons"
+  },
+  "ja": {
+    "rights": "全著作権所有。",
+    "app": "アプリを使用する",
+    "history": "履歴を見る",
+    "about": "私たちについて"
+  }
+}

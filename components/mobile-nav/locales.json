@@ -1,0 +1,42 @@
+{
+  "fr": {
+    "app": "Utiliser l'application",
+    "history": "Voir l'historique",
+    "about": "Qui sommes-nous ?",
+    "login": "Connexion",
+    "profile": "Profil",
+    "start": "Commencer",
+    "toggleMenu": "Ouvrir le menu",
+    "closeMenu": "Fermer le menu"
+  },
+  "en": {
+    "app": "Use the app",
+    "history": "View history",
+    "about": "About us",
+    "login": "Login",
+    "profile": "Profile",
+    "start": "Get started",
+    "toggleMenu": "Toggle menu",
+    "closeMenu": "Close menu"
+  },
+  "nl": {
+    "app": "Gebruik de app",
+    "history": "Geschiedenis bekijken",
+    "about": "Over ons",
+    "login": "Inloggen",
+    "profile": "Profiel",
+    "start": "Beginnen",
+    "toggleMenu": "Menu wisselen",
+    "closeMenu": "Menu sluiten"
+  },
+  "ja": {
+    "app": "アプリを使用する",
+    "history": "履歴を見る",
+    "about": "私たちについて",
+    "login": "ログイン",
+    "profile": "プロフィール",
+    "start": "始める",
+    "toggleMenu": "メニューを開く",
+    "closeMenu": "メニューを閉じる"
+  }
+}
