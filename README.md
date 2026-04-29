@@ -122,3 +122,14 @@ GOOGLE_TTS_API_KEY
 ```
 
 SpeechCraft offre une plateforme complète de synthèse vocale multi-fournisseurs avec une architecture moderne, une gestion utilisateur robuste et une expérience utilisateur fluide.
+
+## Gestion du projet
+
+### Répartition des tâches
+
+#### Listing
+
+Listing des tâches selon importance et aspect (BDD, Frontend, Backend, API)
+
+#### Attribution
+
