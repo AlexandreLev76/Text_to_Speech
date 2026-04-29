@@ -7,7 +7,7 @@ Alexandre Levenez
   - alexandre.levenez@ecoles-epsi.net
 
 ## URL
-https://text-to-speech-bwsn6benn-yukisiris-projects.vercel.app/text-to-speech
+https://text-to-speech-ten-liard.vercel.app/
 
 ## A développer sur le projet
 - Ajout de l'OAuth
