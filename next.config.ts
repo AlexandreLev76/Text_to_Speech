@@ -1,24 +1,15 @@
-/** @type {import('next').NextConfig} */
+import createNextIntlPlugin from 'next-intl/plugin';
+
+const withNextIntl = createNextIntlPlugin('./i18n/request.ts');
 
 const nextConfig = {
-    reactStrictMode: true,
-    swcMinify: true,
-    experimental: {
-        appDir: true,
+  reactStrictMode: true,
+  headers: async () => [
+    {
+      source: '/:path*',
+      headers: [{ key: 'Cache-Control', value: 'no-store, must-revalidate' }],
     },
-    headers: async () => {
-        return [
-            {
-                source: '/:path*',
-                headers: [
-                    {
-                        key: 'Cache-Control',
-                        value: 'no-store, must-revalidate',
-                    },
-                ],
-            },
-        ];
-    },
+  ],
 };
 
-module.exports = nextConfig;
+export default withNextIntl(nextConfig);
