@@ -2,7 +2,9 @@
 
 ## Membres du groupe
 Killian Gascon
+  - killian.gascon@ecoles-epsi.net
 Alexandre Levenez
+  - alexandre.levenez@ecoles-epsi.net
 
 ## URL
 https://text-to-speech-bwsn6benn-yukisiris-projects.vercel.app/text-to-speech
