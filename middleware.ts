@@ -1,11 +1,7 @@
-import createMiddleware from 'next-intl/middleware';
-import { routing } from './i18n/routing';
 import { NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 import { redis, KEYS } from '@/lib/redis';
 import type { NextRequest } from 'next/server';
-
-const intlMiddleware = createMiddleware(routing);
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -25,8 +21,7 @@ export async function middleware(req: NextRequest) {
     try {
       const isBlacklisted = await redis.exists(KEYS.jwtBlacklist(token.jti as string));
       if (isBlacklisted) {
-        const locale = routing.locales.find(l => pathname.startsWith(`/${l}`)) ?? routing.defaultLocale;
-        const res = NextResponse.redirect(new URL(`/${locale}/login`, req.url));
+        const res = NextResponse.redirect(new URL('/login', req.url));
         res.cookies.delete('next-auth.session-token');
         return res;
       }
@@ -35,22 +30,18 @@ export async function middleware(req: NextRequest) {
     }
   }
 
-  // Determine locale and path without locale prefix
-  const locale = routing.locales.find(l => pathname.startsWith(`/${l}/`) || pathname === `/${l}`) ?? routing.defaultLocale;
-  const pathnameWithoutLocale = pathname.replace(new RegExp(`^/${locale}`), '') || '/';
-
   // Redirect authenticated users away from auth pages
-  if ((pathnameWithoutLocale === '/login' || pathnameWithoutLocale === '/sign-up') && token) {
-    return NextResponse.redirect(new URL(`/${locale}/account`, req.url));
+  if ((pathname === '/login' || pathname === '/sign-up') && token) {
+    return NextResponse.redirect(new URL('/account', req.url));
   }
 
   // Protect routes
   const protectedRoutes = ['/account', '/history', '/text-to-speech'];
-  if (protectedRoutes.some(p => pathnameWithoutLocale.startsWith(p)) && !token) {
-    return NextResponse.redirect(new URL(`/${locale}/login`, req.url));
+  if (protectedRoutes.some(p => pathname.startsWith(p)) && !token) {
+    return NextResponse.redirect(new URL('/login', req.url));
   }
 
-  return intlMiddleware(req);
+  return NextResponse.next();
 }
 
 export const config = {

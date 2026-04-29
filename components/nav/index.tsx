@@ -3,16 +3,14 @@
 import { Button } from "@/components/ui/button"
 import { Volume2 } from "lucide-react"
 import { MobileNav } from "@/components/mobile-nav"
-import { LocaleSwitcher } from "@/components/locale-switcher"
-import { Link } from "@/i18n/navigation"
+import Link from "next/link"
 import { useAuth } from "@/hooks/useAuth"
-import { useLocale } from "next-intl"
 import locales from "./locales.json"
+
+const t = locales['fr']
 
 export function Nav() {
   const { user } = useAuth()
-  const locale = useLocale()
-  const t = locales[locale as keyof typeof locales]
 
   return (
     <header className="sticky top-0 left-0 z-40 w-full flex border-b bg-background items-center justify-center">
@@ -28,7 +26,6 @@ export function Nav() {
             <Link href="/about" className="text-sm font-medium hover:text-primary">{t.about}</Link>
           </div>
           <div className="hidden md:flex items-center gap-3 w-1/5">
-            <LocaleSwitcher />
             {!user && (
               <Link href="/login" className="text-sm font-medium hover:text-primary">{t.login}</Link>
             )}

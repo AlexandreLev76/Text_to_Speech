@@ -1,14 +1,12 @@
 "use client"
 
 import { Volume2 } from "lucide-react"
-import { Link } from "@/i18n/navigation"
-import { useLocale } from "next-intl"
+import Link from "next/link"
 import locales from "./locales.json"
 
-export function Footer() {
-  const locale = useLocale()
-  const t = locales[locale as keyof typeof locales]
+const t = locales['fr']
 
+export function Footer() {
   return (
     <footer className="border-t py-6 md:py-10">
       <div className="container flex flex-col items-center justify-between gap-4 md:flex-row">
