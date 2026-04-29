@@ -133,3 +133,12 @@ Listing des tâches selon importance et aspect (BDD, Frontend, Backend, API)
 
 #### Attribution
 
+Attribution des tâches entre nous selon les préférences de chacun
+
+### Branches
+
+créations de branches pour chaque feature, puis merge request pour merge dans main
+
+### Déploiement
+
+Déploiement automatique via vercel dès que l'on merge dans main
