@@ -1,0 +1,34 @@
+{
+  "fr": {
+    "app": "Utiliser l'application",
+    "history": "Voir l'historique",
+    "about": "Qui sommes-nous ?",
+    "login": "Connexion",
+    "profile": "Profil",
+    "start": "Commencer"
+  },
+  "en": {
+    "app": "Use the app",
+    "history": "View history",
+    "about": "About us",
+    "login": "Login",
+    "profile": "Profile",
+    "start": "Get started"
+  },
+  "nl": {
+    "app": "Gebruik de app",
+    "history": "Geschiedenis bekijken",
+    "about": "Over ons",
+    "login": "Inloggen",
+    "profile": "Profiel",
+    "start": "Beginnen"
+  },
+  "ja": {
+    "app": "アプリを使用する",
+    "history": "履歴を見る",
+    "about": "私たちについて",
+    "login": "ログイン",
+    "profile": "プロフィール",
+    "start": "始める"
+  }
+}

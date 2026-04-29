@@ -1,0 +1,110 @@
+{
+  "fr": {
+    "hero": {
+      "title": "Transformez votre texte en parole naturelle en quelques secondes",
+      "subtitle": "Créez des voix naturelles pour votre contenu avec notre plateforme de synthèse vocale avancée.",
+      "trialBtn": "Essai gratuit",
+      "profileBtn": "Profil",
+      "startBtn": "Commencer",
+      "noCreditCard": "Aucune carte de crédit requise",
+      "demo": "\"Transformez votre texte en parole naturelle en quelques clics.\""
+    },
+    "features": {
+      "badge": "Fonctionnalités",
+      "title": "Technologie avancée de synthèse vocale",
+      "subtitle": "Notre plateforme offre des capacités de synthèse vocale de pointe pour donner vie à votre texte.",
+      "natural": { "title": "Voix naturelles", "desc": "Des voix naturelles impossibles à distinguer de la parole humaine." },
+      "custom": { "title": "Personnalisation", "desc": "Ajustez le ton, la hauteur et le style de parole selon vos besoins." },
+      "multilang": { "title": "Support multilingue", "desc": "Support de plus de 30 langues avec une prononciation naturelle." },
+      "fast": { "title": "Traitement rapide", "desc": "Conversion du texte en parole en quelques secondes, même pour les contenus longs." },
+      "api": { "title": "Intégration API", "desc": "Intégrez facilement avec vos applications via notre API robuste." },
+      "export": { "title": "Export audio", "desc": "Exportez des fichiers audio de haute qualité dans plusieurs formats." }
+    },
+    "demo": {
+      "badge": "Essayez-le",
+      "title": "Découvrez la qualité",
+      "subtitle": "Testez notre technologie de synthèse vocale avec cette démo interactive."
+    }
+  },
+  "en": {
+    "hero": {
+      "title": "Transform your text into natural speech in seconds",
+      "subtitle": "Create natural voices for your content with our advanced text-to-speech platform.",
+      "trialBtn": "Free trial",
+      "profileBtn": "Profile",
+      "startBtn": "Get started",
+      "noCreditCard": "No credit card required",
+      "demo": "\"Transform your text into natural speech in just a few clicks.\""
+    },
+    "features": {
+      "badge": "Features",
+      "title": "Advanced text-to-speech technology",
+      "subtitle": "Our platform offers cutting-edge text-to-speech capabilities to bring your text to life.",
+      "natural": { "title": "Natural voices", "desc": "Natural voices indistinguishable from human speech." },
+      "custom": { "title": "Customization", "desc": "Adjust the tone, pitch and speaking style to your needs." },
+      "multilang": { "title": "Multilingual support", "desc": "Support for over 30 languages with natural pronunciation." },
+      "fast": { "title": "Fast processing", "desc": "Convert text to speech in seconds, even for long content." },
+      "api": { "title": "API integration", "desc": "Easily integrate with your applications via our robust API." },
+      "export": { "title": "Audio export", "desc": "Export high-quality audio files in multiple formats." }
+    },
+    "demo": {
+      "badge": "Try it",
+      "title": "Discover the quality",
+      "subtitle": "Test our text-to-speech technology with this interactive demo."
+    }
+  },
+  "nl": {
+    "hero": {
+      "title": "Zet uw tekst om in natuurlijke spraak in enkele seconden",
+      "subtitle": "Maak natuurlijke stemmen voor uw content met ons geavanceerde tekst-naar-spraak platform.",
+      "trialBtn": "Gratis proberen",
+      "profileBtn": "Profiel",
+      "startBtn": "Beginnen",
+      "noCreditCard": "Geen creditcard vereist",
+      "demo": "\"Zet uw tekst om in natuurlijke spraak in slechts een paar klikken.\""
+    },
+    "features": {
+      "badge": "Functies",
+      "title": "Geavanceerde tekst-naar-spraak technologie",
+      "subtitle": "Ons platform biedt geavanceerde tekst-naar-spraak mogelijkheden om uw tekst tot leven te brengen.",
+      "natural": { "title": "Natuurlijke stemmen", "desc": "Natuurlijke stemmen die niet te onderscheiden zijn van menselijke spraak." },
+      "custom": { "title": "Aanpassing", "desc": "Pas de toon, toonhoogte en spreekstijl aan uw behoeften aan." },
+      "multilang": { "title": "Meertalige ondersteuning", "desc": "Ondersteuning voor meer dan 30 talen met natuurlijke uitspraak." },
+      "fast": { "title": "Snelle verwerking", "desc": "Zet tekst in seconden om naar spraak, zelfs voor lange inhoud." },
+      "api": { "title": "API-integratie", "desc": "Integreer eenvoudig met uw toepassingen via onze robuuste API." },
+      "export": { "title": "Audio-export", "desc": "Exporteer audiobestanden van hoge kwaliteit in meerdere formaten." }
+    },
+    "demo": {
+      "badge": "Probeer het",
+      "title": "Ontdek de kwaliteit",
+      "subtitle": "Test onze tekst-naar-spraak technologie met deze interactieve demo."
+    }
+  },
+  "ja": {
+    "hero": {
+      "title": "数秒でテキストを自然な音声に変換",
+      "subtitle": "高度な音声合成プラットフォームで、コンテンツに自然な声を作成しましょう。",
+      "trialBtn": "無料体験",
+      "profileBtn": "プロフィール",
+      "startBtn": "始める",
+      "noCreditCard": "クレジットカード不要",
+      "demo": "「数回のクリックでテキストを自然な音声に変換できます。」"
+    },
+    "features": {
+      "badge": "機能",
+      "title": "高度な音声合成技術",
+      "subtitle": "私たちのプラットフォームは、テキストに命を吹き込む最先端の音声合成機能を提供します。",
+      "natural": { "title": "自然な音声", "desc": "人間の話し声と区別できないほど自然な音声。" },
+      "custom": { "title": "カスタマイズ", "desc": "トーン、ピッチ、話し方のスタイルをニーズに合わせて調整。" },
+      "multilang": { "title": "多言語対応", "desc": "自然な発音で30以上の言語をサポート。" },
+      "fast": { "title": "高速処理", "desc": "長いコンテンツでも数秒でテキストを音声に変換。" },
+      "api": { "title": "API連携", "desc": "堅牢なAPIでアプリケーションに簡単に統合。" },
+      "export": { "title": "音声エクスポート", "desc": "複数のフォーマットで高品質な音声ファイルをエクスポート。" }
+    },
+    "demo": {
+      "badge": "試してみる",
+      "title": "品質を体験してください",
+      "subtitle": "このインタラクティブデモで音声合成技術をテストしてください。"
+    }
+  }
+}

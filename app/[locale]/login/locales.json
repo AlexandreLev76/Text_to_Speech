@@ -1,0 +1,62 @@
+{
+  "fr": {
+    "title": "Connexion",
+    "subtitle": "Entrez vos identifiants pour accéder à votre compte",
+    "email": "Email",
+    "password": "Mot de passe",
+    "forgotPassword": "Mot de passe oublié ?",
+    "rememberMe": "Se souvenir de moi",
+    "submit": "Se connecter",
+    "submitting": "Connexion en cours...",
+    "orContinueWith": "Ou continuer avec",
+    "noAccount": "Vous n'avez pas de compte ?",
+    "signUp": "S'inscrire",
+    "success": "Connexion réussie !",
+    "error": "Erreur lors de la connexion"
+  },
+  "en": {
+    "title": "Login",
+    "subtitle": "Enter your credentials to access your account",
+    "email": "Email",
+    "password": "Password",
+    "forgotPassword": "Forgot password?",
+    "rememberMe": "Remember me",
+    "submit": "Sign in",
+    "submitting": "Signing in...",
+    "orContinueWith": "Or continue with",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign up",
+    "success": "Login successful!",
+    "error": "Login error"
+  },
+  "nl": {
+    "title": "Inloggen",
+    "subtitle": "Voer uw inloggegevens in om toegang te krijgen tot uw account",
+    "email": "E-mail",
+    "password": "Wachtwoord",
+    "forgotPassword": "Wachtwoord vergeten?",
+    "rememberMe": "Onthoud mij",
+    "submit": "Inloggen",
+    "submitting": "Inloggen...",
+    "orContinueWith": "Of doorgaan met",
+    "noAccount": "Heeft u geen account?",
+    "signUp": "Registreren",
+    "success": "Succesvol ingelogd!",
+    "error": "Inlogfout"
+  },
+  "ja": {
+    "title": "ログイン",
+    "subtitle": "アカウントにアクセスするために認証情報を入力してください",
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "forgotPassword": "パスワードをお忘れですか？",
+    "rememberMe": "ログイン状態を保持",
+    "submit": "ログイン",
+    "submitting": "ログイン中...",
+    "orContinueWith": "または次で続ける",
+    "noAccount": "アカウントをお持ちではありませんか？",
+    "signUp": "登録する",
+    "success": "ログインしました！",
+    "error": "ログインエラー"
+  }
+}
